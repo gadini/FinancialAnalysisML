@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class TransacaoResponse {
 
+    private Long id;
     private Long empresaId;
     private LocalDate data;
     private TipoTransacaoEnum tipo;

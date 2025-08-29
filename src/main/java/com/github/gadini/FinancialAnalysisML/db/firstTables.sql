@@ -6,7 +6,9 @@ CREATE TABLE empresa (
     razao_social VARCHAR(255) NOT NULL,
     nome_fantasia VARCHAR(255),
     data_abertura DATE,
-    segmento VARCHAR(100)
+    segmento VARCHAR(100),
+    created_at TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE transacao (
@@ -16,6 +18,8 @@ CREATE TABLE transacao (
     tipo ENUM('RECEBIMENTO', 'PAGAMENTO', 'CREDITO', 'INVESTIMENTO', 'INADIMPLENCIA') NOT NULL,
     valor DECIMAL(15,2) NOT NULL,
     descricao TEXT,
+    created_at TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     FOREIGN KEY (empresa_id) references santanderchallenge.empresa(id)
 );
@@ -26,6 +30,8 @@ CREATE TABLE classificacao (
     momento ENUM('INICIO', 'EXPANSAO', 'MATURIDADE', 'DECLINIO') NOT NULL,
     score_analitico DECIMAL(5,2), -- Ex: silhueta ou confiabilidade
     data_analise DATE NOT NULL,
+    created_at TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     FOREIGN KEY (empresa_id) REFERENCES santanderchallenge.empresa(id)
 );
@@ -37,6 +43,8 @@ CREATE TABLE empresa_relacao (
     tipo_relacao ENUM('FORNECEDOR', 'CLIENTE', 'PARCEIRA', 'INVESTIDORA') NOT NULL,
     data_inicio DATE,
     data_fim DATE,
+    created_at TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     FOREIGN KEY (empresa_origem_id) REFERENCES santanderchallenge.empresa(id),
     FOREIGN KEY (empresa_destino_id) REFERENCES santanderchallenge.empresa(id),
@@ -55,6 +63,21 @@ CREATE TABLE metricas_financeiras (
     total_investimentos DECIMAL(15,2),
     inadimplencia_percentual DECIMAL(5,2),
     qtd_clientes INT,
+    created_at TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     FOREIGN KEY (empresa_id) REFERENCES santanderchallenge.empresa(id)
+);
+
+-- Talvez utilizar
+create table historico_credito (
+    id bigint auto_increment primary key,
+    empresa_id bigint not null,
+    data_referencia date not null,              -- geralmente mês/ano
+    limite_concedido decimal(18,2) not null,
+    utilizado decimal(18,2) not null,
+    inadimplencia decimal(5,2),                 -- % atraso no período
+    status varchar(20),                         -- ATIVO, BLOQUEADO, RENEGOCIADO...
+    atualizado_em timestamp not null default current_timestamp on update current_timestamp,
+    foreign key (empresa_id) references empresa(id)
 );

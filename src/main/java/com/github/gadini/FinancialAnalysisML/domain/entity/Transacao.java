@@ -1,4 +1,4 @@
-package com.github.gadini.FinancialAnalysisML.persistence.entity;
+package com.github.gadini.FinancialAnalysisML.domain.entity;
 
 import com.github.gadini.FinancialAnalysisML.domain.enums.TipoTransacaoEnum;
 import jakarta.persistence.Column;

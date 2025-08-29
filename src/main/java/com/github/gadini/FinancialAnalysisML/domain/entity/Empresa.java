@@ -1,4 +1,4 @@
-package com.github.gadini.FinancialAnalysisML.persistence.entity;
+package com.github.gadini.FinancialAnalysisML.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

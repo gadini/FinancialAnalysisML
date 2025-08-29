@@ -1,6 +1,6 @@
-package com.github.gadini.FinancialAnalysisML.persistence.repository;
+package com.github.gadini.FinancialAnalysisML.repository;
 
-import com.github.gadini.FinancialAnalysisML.persistence.entity.Empresa;
+import com.github.gadini.FinancialAnalysisML.domain.entity.Empresa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

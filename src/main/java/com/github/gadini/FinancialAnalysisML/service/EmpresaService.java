@@ -2,7 +2,7 @@ package com.github.gadini.FinancialAnalysisML.service;
 
 import com.github.gadini.FinancialAnalysisML.domain.mapper.EmpresaMapper;
 import com.github.gadini.FinancialAnalysisML.domain.response.EmpresaResponse;
-import com.github.gadini.FinancialAnalysisML.persistence.repository.EmpresaRepository;
+import com.github.gadini.FinancialAnalysisML.repository.EmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;

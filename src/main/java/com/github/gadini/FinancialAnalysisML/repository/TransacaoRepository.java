@@ -1,6 +1,6 @@
-package com.github.gadini.FinancialAnalysisML.persistence.repository;
+package com.github.gadini.FinancialAnalysisML.repository;
 
-import com.github.gadini.FinancialAnalysisML.persistence.entity.Transacao;
+import com.github.gadini.FinancialAnalysisML.domain.entity.Transacao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,7 +2,7 @@ package com.github.gadini.FinancialAnalysisML.service;
 
 import com.github.gadini.FinancialAnalysisML.domain.mapper.TransacaoMapper;
 import com.github.gadini.FinancialAnalysisML.domain.response.TransacaoResponse;
-import com.github.gadini.FinancialAnalysisML.persistence.repository.TransacaoRepository;
+import com.github.gadini.FinancialAnalysisML.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;

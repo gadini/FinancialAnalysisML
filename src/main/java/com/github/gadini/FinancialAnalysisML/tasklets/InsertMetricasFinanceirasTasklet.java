@@ -16,7 +16,7 @@ public class InsertMetricasFinanceirasTasklet implements Tasklet {
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-        metricasFinanceirasService.teste();
+        metricasFinanceirasService.calcularMetricasFinanceiras();
         return RepeatStatus.FINISHED;
     }
 }

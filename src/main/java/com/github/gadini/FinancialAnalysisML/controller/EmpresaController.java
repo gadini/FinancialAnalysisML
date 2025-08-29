@@ -18,7 +18,7 @@ public class EmpresaController {
     EmpresaService empresaService;
 
     @GetMapping
-    public ResponseEntity<Page<EmpresaResponse>> listar(Pageable page){
+    public ResponseEntity<Page<EmpresaResponse>> list(Pageable page){
         return ResponseEntity.ok(empresaService.listarEmpresas(page));
     }
 }

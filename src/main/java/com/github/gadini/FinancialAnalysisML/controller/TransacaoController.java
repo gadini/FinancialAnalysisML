@@ -19,7 +19,7 @@ public class TransacaoController {
     private TransacaoService transacaoService;
 
     @GetMapping
-    public ResponseEntity<Page<TransacaoResponse>> listar(Pageable page){
+    public ResponseEntity<Page<TransacaoResponse>> list(Pageable page){
         return ResponseEntity.ok(transacaoService.listarTransacoes(page));
     }
 }

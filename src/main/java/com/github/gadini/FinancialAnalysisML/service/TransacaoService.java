@@ -20,4 +20,9 @@ public class TransacaoService {
     public Page<TransacaoResponse> listarTransacoes(Pageable pageable){
         return transacaoRepository.findAll(pageable).map(transacaoMapper::toResponse);
     }
+
+    public Page<TransacaoResponse> listarPorEmpresa(Long empresaId, Pageable pageable) {
+        return transacaoRepository.findByEmpresaId(empresaId, pageable)
+                .map(transacaoMapper::toResponse);
+    }
 }

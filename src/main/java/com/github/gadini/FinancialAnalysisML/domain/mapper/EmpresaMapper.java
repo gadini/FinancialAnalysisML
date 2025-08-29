@@ -8,8 +8,5 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface EmpresaMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "created_at", ignore = true)
-    @Mapping(target = "updated_at", ignore = true)
     EmpresaResponse toResponse(Empresa empresa);
 }

@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmpresaService {
 
-    EmpresaMapper empresaMapper;
+    @Autowired
+    private EmpresaMapper empresaMapper;
 
     @Autowired
-    EmpresaRepository empresaRepository;
+    private EmpresaRepository empresaRepository;
 
     public Page<EmpresaResponse> listarEmpresas(Pageable pageable){
         return empresaRepository.findAll(pageable).map(empresaMapper::toResponse);

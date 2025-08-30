@@ -7,12 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface MetricasFinanceirasRepository extends JpaRepository<MetricasFinanceiras, Long> {
 
     Page<MetricasFinanceiras> findByEmpresaId(Long empresaId, Pageable pageable);
 
     Page<MetricasFinanceiras> findByPeriodoInicioAndPeriodoFim(LocalDate periodo_inicio, LocalDate periodo_fim, Pageable pageable);
+
+    List<MetricasFinanceiras> findByPeriodoInicioAndPeriodoFim(LocalDate periodo_inicio, LocalDate periodo_fim);
 
     @Procedure(procedureName = "sp_calcular_metricas_por_periodo")
     void spCalcularMetricasPorPeriodo(LocalDate p_inicio, LocalDate p_fim);

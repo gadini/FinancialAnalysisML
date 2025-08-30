@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.Chunk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 @Slf4j
 @Service
@@ -15,14 +18,8 @@ public class MetricasFinanceirasService {
     @Autowired
     private MetricasFinanceirasRepository metricasFinanceirasRepository;
 
-    public MetricasFinanceiras calcularMetricasFinanceiras(){
-        log.info("TESTE JOB SUCESSO");
-        MetricasFinanceiras metricasFinanceiras = new MetricasFinanceiras();
-        return metricasFinanceiras;
-    }
-
-    public void salvarMetricasFinanceiras(Chunk<? extends MetricasFinanceiras> items){
-        //metricasFinanceirasRepository.saveAll(items);
-        log.info("teste");
+    @Transactional
+    public void calcularMetricasFinanceiras(LocalDate inicio, LocalDate fim){
+        metricasFinanceirasRepository.spCalcularMetricasPorPeriodo(inicio, fim);
     }
 }

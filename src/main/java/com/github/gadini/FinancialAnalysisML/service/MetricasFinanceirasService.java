@@ -1,6 +1,7 @@
 package com.github.gadini.FinancialAnalysisML.service;
 
 import com.github.gadini.FinancialAnalysisML.domain.mapper.MetricasFinanceirasMapper;
+import com.github.gadini.FinancialAnalysisML.domain.request.PeriodoRequest;
 import com.github.gadini.FinancialAnalysisML.domain.response.ListAllEmpresaRelacaoResponse;
 import com.github.gadini.FinancialAnalysisML.domain.response.ListEmpresaRelacaoByOrigemResponse;
 import com.github.gadini.FinancialAnalysisML.domain.response.MetricasFinanceirasResponse;
@@ -30,6 +31,10 @@ public class MetricasFinanceirasService {
 
     public PagedModel<MetricasFinanceirasResponse> listarMetricasPorEmpresa(Long empresaId, Pageable pageable) {
         return new PagedModel<>(metricasFinanceirasRepository.findByEmpresaId(empresaId, pageable).map(metricasFinanceirasMapper::toResponse));
+    }
+
+    public PagedModel<MetricasFinanceirasResponse> listarMetricasPorPeriodo(PeriodoRequest request, Pageable pageable) {
+        return new PagedModel<>(metricasFinanceirasRepository.findByPeriodoInicioAndPeriodoFim(request.getInicio(), request.getFim(), pageable).map(metricasFinanceirasMapper::toResponse));
     }
 
     @Transactional

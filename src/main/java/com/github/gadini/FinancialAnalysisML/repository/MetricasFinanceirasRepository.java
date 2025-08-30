@@ -12,6 +12,8 @@ public interface MetricasFinanceirasRepository extends JpaRepository<MetricasFin
 
     Page<MetricasFinanceiras> findByEmpresaId(Long empresaId, Pageable pageable);
 
+    Page<MetricasFinanceiras> findByPeriodoInicioAndPeriodoFim(LocalDate periodo_inicio, LocalDate periodo_fim, Pageable pageable);
+
     @Procedure(procedureName = "sp_calcular_metricas_por_periodo")
     void spCalcularMetricasPorPeriodo(LocalDate p_inicio, LocalDate p_fim);
 }

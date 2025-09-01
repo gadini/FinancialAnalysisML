@@ -12,10 +12,19 @@ import org.springframework.context.annotation.Configuration;
 public class BatchJobConfig {
 
     private InsertMetricasFinanceirasJobProperties insertMetricasFinanceiras;
+    private InsertClassificacaoJobProperties insertClassificacao;
 
     @Getter
     @Setter
     public static class InsertMetricasFinanceirasJobProperties {
+        private String cron;
+        private boolean enable;
+        private int pageSize;
+    }
+
+    @Getter
+    @Setter
+    public static class InsertClassificacaoJobProperties {
         private String cron;
         private boolean enable;
         private int pageSize;

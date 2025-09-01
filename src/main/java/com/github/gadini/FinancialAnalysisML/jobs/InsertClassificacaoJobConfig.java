@@ -1,6 +1,6 @@
 package com.github.gadini.FinancialAnalysisML.jobs;
 
-import com.github.gadini.FinancialAnalysisML.tasklets.InsertMetricasFinanceirasTasklet;
+import com.github.gadini.FinancialAnalysisML.tasklets.InsertClassificacaoTasklet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -14,16 +14,16 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @RequiredArgsConstructor
-public class InsertMetricasFinanceirasJobConfig {
+public class InsertClassificacaoJobConfig {
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager transactionManager;
-    private final InsertMetricasFinanceirasTasklet tasklet;
+    private final InsertClassificacaoTasklet tasklet;
 
     @Bean
-    public Job insertMetricasFinanceirasJob() {
-        Step step = insertMetricasFinanceirasStep();
-        return new JobBuilder("insertMetricasFinanceirasJob", jobRepository)
+    public Job insertClassificacaoJob() {
+        Step step = insertClassificacaoStep();
+        return new JobBuilder("insertClassificacaoJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .preventRestart()
                 .start(step)
@@ -31,8 +31,8 @@ public class InsertMetricasFinanceirasJobConfig {
     }
 
     @Bean
-    public Step insertMetricasFinanceirasStep() {
-        return new StepBuilder("insertMetricasFinanceirasStep", jobRepository)
+    public Step insertClassificacaoStep() {
+        return new StepBuilder("insertClassificacaoStep", jobRepository)
                 .tasklet(tasklet, transactionManager)
                 .build();
     }

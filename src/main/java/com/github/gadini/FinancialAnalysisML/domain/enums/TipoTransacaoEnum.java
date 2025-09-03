@@ -5,11 +5,10 @@ import lombok.Getter;
 @Getter
 public enum TipoTransacaoEnum {
 
-    RECEBIMENTO("Recebimento de valores"),
-    PAGAMENTO("Pagamento de despesas"),
-    CREDITO("Operação de crédito"),
-    INVESTIMENTO("Aplicação em investimento"),
-    INADIMPLENCIA("Registro de inadimplência");
+    PIX("PIX"),
+    TED("TED"),
+    BOLETO("Boleto"),
+    SISTEMICO("Sistemico");
 
     private final String descricao;
 

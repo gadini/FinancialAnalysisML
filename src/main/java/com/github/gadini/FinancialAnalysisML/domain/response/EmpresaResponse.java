@@ -12,10 +12,11 @@ import java.time.LocalDate;
 public class EmpresaResponse {
 
     private Long id;
-    private String cnpj;
-    private String razaoSocial;
-    private String nomeFantasia;
+    private String idExterno;
+    private Long valorFaturamento;
+    private Long valorSaldo;
     private LocalDate dataAbertura;
-    private String segmento;
+    private String cnae;
+    private LocalDate dataReferencia;
 
 }

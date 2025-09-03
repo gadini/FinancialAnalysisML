@@ -18,18 +18,21 @@ import java.time.LocalDate;
 @Table(name = "empresa")
 public class Empresa extends BaseEntity {
 
-    @Column(name = "cnpj", nullable = false, length = 20)
-    private String cnpj;
+    @Column(name = "id_externo", nullable = false, length = 64)
+    private String idExterno;
 
-    @Column(name = "razao_social", nullable = false, length = 255)
-    private String razaoSocial;
+    @Column(name = "vl_fatu")
+    private Long valorFaturamento;
 
-    @Column(name = "nome_fantasia", length = 255)
-    private String nomeFantasia;
+    @Column(name = "vl_sldo")
+    private Long valorSaldo;
 
-    @Column(name = "data_abertura")
+    @Column(name = "dt_abrt")
     private LocalDate dataAbertura;
 
-    @Column(name = "segmento", length = 100)
-    private String segmento;
+    @Column(name = "ds_cnae", length = 255)
+    private String cnae;
+
+    @Column(name = "dt_refe")
+    private LocalDate dataReferencia;
 }

@@ -14,10 +14,10 @@ import java.time.LocalDate;
 public class TransacaoResponse {
 
     private Long id;
-    private Long empresaId;
-    private LocalDate data;
+    private String idPagamento;
+    private String idRcbe;
+    private Long valor;
     private TipoTransacaoEnum tipo;
-    private BigDecimal valor;
-    private String descricao;
+    private LocalDate dataReferencia;
 
 }

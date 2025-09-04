@@ -9,9 +9,7 @@ CREATE TABLE empresa (
   ds_cnae VARCHAR(255) NULL,                 -- DS_CNAE
   dt_refe DATE NULL,                         -- DT_REFE (Base 1)
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-
-  CONSTRAINT uq_empresa_id_externo UNIQUE (id_externo)
+  updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 CREATE INDEX idx_empresa_dt_refe ON empresa (dt_refe);
@@ -24,11 +22,7 @@ CREATE TABLE transacao (
   ds_tran  ENUM('PIX','TED','BOLETO','SISTEMICO') NOT NULL,
   dt_refe  DATE NOT NULL,                              -- mês ref (mar/abr/mai 2025)
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-
-  -- FKs via empresa.id_externo (Unique)
-  CONSTRAINT fk_transb_pgto FOREIGN KEY (id_pgto) REFERENCES empresa (id_externo),
-  CONSTRAINT fk_transb_rcbe FOREIGN KEY (id_rcbe) REFERENCES empresa (id_externo)
+  updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 CREATE INDEX idx_transb_dt_refe ON transacao (dt_refe);

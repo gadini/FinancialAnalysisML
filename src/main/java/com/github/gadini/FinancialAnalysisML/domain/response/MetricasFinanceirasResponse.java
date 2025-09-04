@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class MetricasFinanceirasResponse {
 
-    private String razaoSocial;
+    private Long empresaId;
     private LocalDate periodoInicio;
     private LocalDate periodoFim;
     private BigDecimal mediaRecebimentos;

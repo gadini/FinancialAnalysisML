@@ -25,8 +25,8 @@ public class EmpresaRelacaoController {
     }
 
     @GetMapping("/empresa/{empresaOrigemId}")
-    public ResponseEntity<PagedModel<ListEmpresaRelacaoByOrigemResponse>> listByEmpresaOrigemId(@PathVariable Long empresaOrigemId, Pageable page) {
-        return ResponseEntity.ok(empresaRelacaoService.listarRelacoesPorOrigem(empresaOrigemId, page));
+    public ResponseEntity<PagedModel<ListEmpresaRelacaoByOrigemResponse>> listByEmpresaOrigemId(@PathVariable String empresaOrigem, Pageable page) {
+        return ResponseEntity.ok(empresaRelacaoService.listarRelacoesPorOrigem(empresaOrigem, page));
     }
 
 }

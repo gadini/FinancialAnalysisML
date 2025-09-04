@@ -8,6 +8,5 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface TransacaoMapper {
 
-    @Mapping(target = "empresaId", source = "empresa.id")
     TransacaoResponse toResponse(Transacao transacao);
 }

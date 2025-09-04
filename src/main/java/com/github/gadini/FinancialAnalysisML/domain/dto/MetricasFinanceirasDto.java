@@ -13,8 +13,5 @@ public class MetricasFinanceirasDto {
     private LocalDate periodoFim;
     private BigDecimal mediaRecebimentos;
     private BigDecimal mediaPagamentos;
-    private BigDecimal volumeCredito;
-    private BigDecimal totalInvestimentos;
-    private BigDecimal inadimplenciaPercentual;
     private Integer qtdClientes;
 }

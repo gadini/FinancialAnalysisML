@@ -9,10 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface EmpresaRelacaoMapper {
 
-    @Mapping(source = "empresaOrigem.razaoSocial", target = "empresaOrigemNome")
-    @Mapping(source = "empresaDestino.razaoSocial", target = "empresaDestinoNome")
     ListAllEmpresaRelacaoResponse  toListAllResponse(EmpresaRelacao empresaRelacao);
 
-    @Mapping(source = "empresaDestino.razaoSocial", target = "empresaDestinoNome")
     ListEmpresaRelacaoByOrigemResponse toListByOrigemResponse(EmpresaRelacao empresaRelacao);
 }

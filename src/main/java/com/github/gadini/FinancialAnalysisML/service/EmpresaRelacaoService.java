@@ -22,8 +22,8 @@ public class EmpresaRelacaoService {
         return new PagedModel<> (empresaRelacaoRepository.findAll(pageable).map(empresaRelacaoMapper::toListAllResponse));
     }
 
-    public PagedModel<ListEmpresaRelacaoByOrigemResponse> listarRelacoesPorOrigem(Long empresaOrigemId, Pageable pageable) {
-        return new PagedModel<>(empresaRelacaoRepository.findByEmpresaOrigemId(empresaOrigemId, pageable).map(empresaRelacaoMapper::toListByOrigemResponse));
+    public PagedModel<ListEmpresaRelacaoByOrigemResponse> listarRelacoesPorOrigem(String empresaOrigem, Pageable pageable) {
+        return new PagedModel<>(empresaRelacaoRepository.findByEmpresaOrigem(empresaOrigem, pageable).map(empresaRelacaoMapper::toListByOrigemResponse));
     }
 
 }

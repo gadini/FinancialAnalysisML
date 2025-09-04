@@ -21,7 +21,7 @@ public class TransacaoService {
         return new PagedModel<> (transacaoRepository.findAll(pageable).map(transacaoMapper::toResponse));
     }
 
-    public PagedModel<TransacaoResponse> listarPorEmpresa(Long empresaId, Pageable pageable) {
-        return new PagedModel<>(transacaoRepository.findByEmpresaId(empresaId, pageable).map(transacaoMapper::toResponse));
+    public PagedModel<TransacaoResponse> listarPorEmpresaRecebedora(String empresaRecebedora, Pageable pageable) {
+        return new PagedModel<>(transacaoRepository.findByIdRcbe(empresaRecebedora, pageable).map(transacaoMapper::toResponse));
     }
 }

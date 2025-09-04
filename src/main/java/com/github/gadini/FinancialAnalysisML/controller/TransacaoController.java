@@ -24,7 +24,7 @@ public class TransacaoController {
     }
 
     @GetMapping("/empresa/{empresaId}")
-    public ResponseEntity<PagedModel<TransacaoResponse>> listByEmpresaId(@PathVariable Long empresaId, Pageable page) {
-        return ResponseEntity.ok(transacaoService.listarPorEmpresa(empresaId, page));
+    public ResponseEntity<PagedModel<TransacaoResponse>> listByEmpresaId(@PathVariable String empresaRecebedora, Pageable page) {
+        return ResponseEntity.ok(transacaoService.listarPorEmpresaRecebedora(empresaRecebedora, page));
     }
 }

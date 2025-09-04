@@ -25,13 +25,11 @@ import java.time.LocalDate;
 @Table(name = "empresa_relacao")
 public class EmpresaRelacao extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "empresa_origem_id", nullable = false)
-    private Empresa empresaOrigem;
+    @Column(name = "empresa_origem_id", nullable = false)
+    private String empresaOrigem;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "empresa_destino_id", nullable = false)
-    private Empresa empresaDestino;
+    @Column(name = "empresa_destino_id", nullable = false)
+    private String empresaDestino;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_relacao", nullable = false, length = 20)

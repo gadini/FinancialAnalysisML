@@ -14,9 +14,9 @@ import java.time.LocalDate;
 public class ListAllEmpresaRelacaoResponse {
 
     private Long id;
-    private String empresaOrigemNome;
+    private String empresaOrigem;
     private TipoRelacaoEnum tipoRelacao;
-    private String empresaDestinoNome;
+    private String empresaDestino;
     private LocalDate dataInicio;
     private LocalDate dataFim;
     private StatusEnum status;

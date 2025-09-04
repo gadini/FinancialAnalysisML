@@ -9,9 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface MetricasFinanceirasMapper {
 
-    @Mapping(source = "empresa.razaoSocial", target = "razaoSocial")
     MetricasFinanceirasResponse toResponse(MetricasFinanceiras metricasFinanceiras);
 
-    @Mapping(source = "empresa.id", target = "empresaId")
     MetricasFinanceirasDto toDto(MetricasFinanceiras metricasFinanceiras);
 }

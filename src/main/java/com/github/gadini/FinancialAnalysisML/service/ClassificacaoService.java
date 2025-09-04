@@ -63,9 +63,6 @@ public class ClassificacaoService {
         return new double[]{
                 toDouble(m.getMediaRecebimentos()),
                 toDouble(m.getMediaPagamentos()),
-                toDouble(m.getVolumeCredito()),
-                toDouble(m.getTotalInvestimentos()),
-                toDouble(m.getInadimplenciaPercentual()),
                 //m.getQtdClientes() != null ? m.getQtdClientes() : 0
         };
     }

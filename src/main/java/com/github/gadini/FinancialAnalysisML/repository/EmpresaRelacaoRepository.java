@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmpresaRelacaoRepository extends JpaRepository<EmpresaRelacao, Long> {
-    Page<EmpresaRelacao> findByEmpresaOrigemId(Long empresaOrigemId, Pageable pageable);
+    Page<EmpresaRelacao> findByEmpresaOrigem(String empresaOrigem, Pageable pageable);
 }

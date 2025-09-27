@@ -2,12 +2,12 @@ use santanderBaseChallenge;
 
 CREATE TABLE empresa (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  id_externo VARCHAR(64) NOT NULL,           -- ID anônimo (Base 1)
-  vl_fatu BIGINT NULL,                       -- VL_FATU (anual, mascarado)
-  vl_sldo BIGINT NULL,                       -- VL_SLDO (saldo no dia ref)
-  dt_abrt DATE NULL,                         -- DT_ABRT (mascarada)
-  ds_cnae VARCHAR(255) NULL,                 -- DS_CNAE
-  dt_refe DATE NULL,                         -- DT_REFE (Base 1)
+  id_externo VARCHAR(64) NOT NULL,
+  vl_fatu BIGINT NULL,
+  vl_sldo BIGINT NULL,
+  dt_abrt DATE NULL,
+  ds_cnae VARCHAR(255) NULL,
+  dt_refe DATE NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
@@ -16,11 +16,11 @@ CREATE INDEX idx_empresa_dt_refe ON empresa (dt_refe);
 
 CREATE TABLE transacao (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  id_pgto  VARCHAR(64) NOT NULL,                       -- pagador (origem)
-  id_rcbe  VARCHAR(64) NOT NULL,                       -- recebedor (destino)
-  vl       BIGINT NOT NULL,                            -- valor absoluto
+  id_pgto  VARCHAR(64) NOT NULL,
+  id_rcbe  VARCHAR(64) NOT NULL,
+  vl       BIGINT NOT NULL,
   ds_tran  ENUM('PIX','TED','BOLETO','SISTEMICO') NOT NULL,
-  dt_refe  DATE NOT NULL,                              -- mês ref (mar/abr/mai 2025)
+  dt_refe  DATE NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;

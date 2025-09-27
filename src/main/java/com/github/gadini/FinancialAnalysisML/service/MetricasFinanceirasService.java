@@ -2,8 +2,6 @@ package com.github.gadini.FinancialAnalysisML.service;
 
 import com.github.gadini.FinancialAnalysisML.domain.mapper.MetricasFinanceirasMapper;
 import com.github.gadini.FinancialAnalysisML.domain.request.PeriodoRequest;
-import com.github.gadini.FinancialAnalysisML.domain.response.ListAllEmpresaRelacaoResponse;
-import com.github.gadini.FinancialAnalysisML.domain.response.ListEmpresaRelacaoByOrigemResponse;
 import com.github.gadini.FinancialAnalysisML.domain.response.MetricasFinanceirasResponse;
 import com.github.gadini.FinancialAnalysisML.repository.MetricasFinanceirasRepository;
 import lombok.extern.slf4j.Slf4j;

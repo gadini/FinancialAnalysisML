@@ -13,6 +13,7 @@ public class BatchJobConfig {
 
     private InsertMetricasFinanceirasJobProperties insertMetricasFinanceiras;
     private InsertClassificacaoJobProperties insertClassificacao;
+    private InsertRedeArestasJobProperties insertRedeArestas;
 
     @Getter
     @Setter
@@ -25,6 +26,14 @@ public class BatchJobConfig {
     @Getter
     @Setter
     public static class InsertClassificacaoJobProperties {
+        private String cron;
+        private boolean enable;
+        private int pageSize;
+    }
+
+    @Getter
+    @Setter
+    public static class InsertRedeArestasJobProperties {
         private String cron;
         private boolean enable;
         private int pageSize;

@@ -27,6 +27,9 @@ public class JobScheduler {
     @Qualifier("insertClassificacaoJob")
     private final Job insertClassificacaoJob;
 
+    @Qualifier("insertRedeArestasJob")
+    private final Job insertRedeArestasJob;
+
     @Scheduled(cron = "${financial.analysis.job.insertMetricasFinanceiras.cron}")
     public void runInsertMetricasFinanceirasJob() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
         if(batchJobConfig.getInsertMetricasFinanceiras().isEnable()){
@@ -44,6 +47,16 @@ public class JobScheduler {
                     .addLong("time", System.currentTimeMillis())
                     .toJobParameters();
             jobLauncher.run(insertClassificacaoJob, params);
+        }
+    }
+
+    @Scheduled(cron = "${financial.analysis.job.insertRedeArestas.cron}")
+    public void runInsertRedeArestasJob() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+        if(batchJobConfig.getInsertRedeArestas().isEnable()){
+            JobParameters params = new JobParametersBuilder()
+                    .addLong("time", System.currentTimeMillis())
+                    .toJobParameters();
+            jobLauncher.run(insertRedeArestasJob, params);
         }
     }
 }

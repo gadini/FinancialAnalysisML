@@ -43,3 +43,14 @@ CREATE TABLE metricas_financeiras (
     CONSTRAINT fk_metricas_empresa FOREIGN KEY (empresa_id) REFERENCES empresa (id),
     CONSTRAINT uq_metricas_empresa_periodo UNIQUE (empresa_id, periodo_inicio, periodo_fim)
 );
+
+CREATE TABLE classificacao (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    empresa_id BIGINT NOT NULL,
+    momento ENUM('INICIO', 'EXPANSAO', 'MATURIDADE', 'DECLINIO') NOT NULL,
+    data_analise DATE NOT NULL,
+    created_at TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (empresa_id) REFERENCES santanderchallenge.empresa(id)
+);

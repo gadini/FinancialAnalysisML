@@ -28,7 +28,6 @@ CREATE TABLE classificacao (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     empresa_id BIGINT NOT NULL,
     momento ENUM('INICIO', 'EXPANSAO', 'MATURIDADE', 'DECLINIO') NOT NULL,
-    score_analitico DECIMAL(5,2), -- Ex: silhueta ou confiabilidade
     data_analise DATE NOT NULL,
     created_at TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

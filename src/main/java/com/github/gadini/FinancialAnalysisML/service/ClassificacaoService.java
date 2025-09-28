@@ -50,7 +50,7 @@ public class ClassificacaoService {
                 .toList();
 
         final int n = metricas.size();
-        final int d = 3; // [media_receb, media_pag, qtd_clientes]
+        final int d = 3;
         double[][] X = new double[n][d];
         long[] empresaIds = new long[n];
 
@@ -67,9 +67,7 @@ public class ClassificacaoService {
             X[i][2] = cli;
         }
 
-        zscoreInPlace(X);
-
-        final int K_MAX = MomentoEnum.values().length;
+        final int K_MAX = MomentoEnum.values().length; // 4
         int k = Math.min(K_MAX, distinctCount(empresaIds));
         if (k < 2) {
             log.warn("Apenas {} empresa(s) no período {} - {}. Classificação ignorada.", k, inicio, fim);
@@ -79,22 +77,17 @@ public class ClassificacaoService {
         KMeans kmeans = KMeans.fit(X, k);
         log.info("KMeans: k={}, distortion={}", k, kmeans.distortion);
 
-        Map<Integer, MomentoEnum> clusterToMomento = mapClusters(kmeans.centroids);
+        Map<Integer, MomentoEnum> clusterToMomento = mapClustersSimple(kmeans.centroids);
 
         LocalDate dataAnalise = fim.with(TemporalAdjusters.lastDayOfMonth());
         List<Classificacao> batch = new ArrayList<>(n);
-
         for (int i = 0; i < n; i++) {
-            MomentoEnum momento = clusterToMomento.getOrDefault(kmeans.y[i], MomentoEnum.INICIO);
-
-            ClassificacaoDto dto = new ClassificacaoDto();
+            var dto = new ClassificacaoDto();
             dto.setEmpresaId(empresaIds[i]);
-            dto.setMomento(momento);
+            dto.setMomento(clusterToMomento.getOrDefault(kmeans.y[i], MomentoEnum.INICIO));
             dto.setDataAnalise(dataAnalise);
-
             batch.add(classificacaoMapper.toEntity(dto));
         }
-
         classificacaoRepository.saveAll(batch);
         log.info("Classificação concluída para {} empresas no período {} - {}", n, inicio, fim);
     }
@@ -109,70 +102,54 @@ public class ClassificacaoService {
         return set.size();
     }
 
-    private static void zscoreInPlace(double[][] X) {
-        int n = X.length;
-        if (n == 0) return;
-        int d = X[0].length;
-
-        double[] mean = new double[d];
-        double[] std = new double[d];
-
-        for (int j = 0; j < d; j++) {
-            double s = 0.0;
-            for (int i = 0; i < n; i++) s += X[i][j];
-            mean[j] = s / n;
-
-            double v = 0.0;
-            for (int i = 0; i < n; i++) {
-                double diff = X[i][j] - mean[j];
-                v += diff * diff;
-            }
-            std[j] = Math.sqrt(v / Math.max(1, n - 1));
-            if (std[j] == 0.0) std[j] = 1.0;
-
-            for (int i = 0; i < n; i++) {
-                X[i][j] = (X[i][j] - mean[j]) / std[j];
-            }
-        }
-    }
-
-    private static Map<Integer, MomentoEnum> mapClusters(double[][] C) {
+    /**
+     * Regras estáveis:
+     *  - DECLINIO  : menor NET  (net = rec - pag)
+     *  - MATURIDADE: maior NET, desempate por maior TOTAL (rec + pag)
+     *  - EXPANSAO  : entre os restantes, maior PAG (preferindo net < 0, se existir)
+     *  - INICIO    : entre os restantes, **menor TOTAL**
+     */
+    private static Map<Integer, MomentoEnum> mapClustersSimple(double[][] C) {
         record CInfo(int idx, double rec, double pag, double cli, double total, double net) {}
-
         List<CInfo> infos = new ArrayList<>(C.length);
         for (int c = 0; c < C.length; c++) {
-            double rec = C[c][0];
-            double pag = C[c][1];
-            double cli = C[c][2];
-            double total = rec + pag;
-            double net = rec - pag;
-            infos.add(new CInfo(c, rec, pag, cli, total, net));
+            double rec = C[c][0], pag = C[c][1], cli = C[c][2];
+            infos.add(new CInfo(c, rec, pag, cli, rec + pag, rec - pag));
         }
 
-        int inicioIdx = infos.stream()
-                .min(Comparator.comparingDouble((CInfo ci) -> ci.total)
-                        .thenComparingDouble(ci -> ci.cli))
-                .map(ci -> ci.idx).orElse(0);
+        var decl = infos.stream()
+                .min(Comparator.comparingDouble(ci -> ci.net))
+                .orElseThrow();
 
-        int maturIdx = infos.stream()
-                .max(Comparator.comparingDouble((CInfo ci) -> (ci.total + ci.cli) - Math.abs(ci.net)))
-                .map(ci -> ci.idx).orElse(0);
+        var mat = infos.stream()
+                .max(Comparator.<CInfo>comparingDouble(ci -> ci.net)
+                        .thenComparingDouble(ci -> ci.total))
+                .orElseThrow();
 
-        Set<Integer> used = new HashSet<>(List.of(inicioIdx, maturIdx));
-        List<CInfo> rest = infos.stream().filter(ci -> !used.contains(ci.idx)).toList();
-        int expansaoIdx = rest.isEmpty()
-                ? maturIdx
-                : rest.stream().max(Comparator.comparingDouble(ci -> ci.net)).map(ci -> ci.idx).orElse(maturIdx);
-        int declinioIdx = rest.isEmpty()
-                ? inicioIdx
-                : rest.stream().min(Comparator.comparingDouble(ci -> ci.net)).map(ci -> ci.idx).orElse(inicioIdx);
+        Set<Integer> usados = new HashSet<>(List.of(decl.idx, mat.idx));
+        var candidatos = infos.stream().filter(ci -> !usados.contains(ci.idx)).toList();
+
+        CInfo exp = candidatos.stream()
+                .filter(ci -> ci.net < 0)
+                .max(Comparator.comparingDouble(ci -> ci.pag))
+                .orElseGet(() ->
+                        candidatos.stream()
+                                .max(Comparator.comparingDouble(ci -> ci.pag))
+                                .orElse(null)
+                );
+
+        CInfo ini = infos.stream()
+                .filter(ci -> ci.idx != decl.idx && ci.idx != mat.idx && (exp == null || ci.idx != exp.idx))
+                .min(Comparator.comparingDouble(ci -> ci.total))
+                .orElse(null);
 
         Map<Integer, MomentoEnum> map = new HashMap<>();
-        map.put(inicioIdx,    MomentoEnum.INICIO);
-        map.put(expansaoIdx,  MomentoEnum.EXPANSAO);
-        map.put(maturIdx,     MomentoEnum.MATURIDADE);
-        map.put(declinioIdx,  MomentoEnum.DECLINIO);
+        map.put(decl.idx, MomentoEnum.DECLINIO);
+        map.put(mat.idx,  MomentoEnum.MATURIDADE);
+        if (exp != null) map.put(exp.idx,  MomentoEnum.EXPANSAO);
+        if (ini != null) map.put(ini.idx,  MomentoEnum.INICIO);
+
+        for (CInfo ci : infos) map.putIfAbsent(ci.idx, MomentoEnum.INICIO);
         return map;
     }
 }
-

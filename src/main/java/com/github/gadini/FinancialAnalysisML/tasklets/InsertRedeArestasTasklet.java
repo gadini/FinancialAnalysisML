@@ -23,7 +23,6 @@ public class InsertRedeArestasTasklet implements Tasklet {
         LocalDate inicio =  LocalDate.now().minusMonths(1).withDayOfMonth(1);
         LocalDate fim = inicio.withDayOfMonth(inicio.lengthOfMonth());
         redeArestasService.criarRedeArestas(inicio, fim);
-        log.info("DEU CERTO");
         return RepeatStatus.FINISHED;
     }
 }

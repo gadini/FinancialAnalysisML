@@ -23,7 +23,6 @@ public class InsertClassificacaoTasklet implements Tasklet {
         LocalDate inicio =  LocalDate.now().minusMonths(1).withDayOfMonth(1);
         LocalDate fim = inicio.withDayOfMonth(inicio.lengthOfMonth());
         classificacaoService.classificarPeriodo(inicio, fim);
-        log.info("DEU CERTO CLASSIFICACAO");
         return RepeatStatus.FINISHED;
     }
 }

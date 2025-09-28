@@ -1,6 +1,6 @@
 package com.github.gadini.FinancialAnalysisML.tasklets;
 
-import com.github.gadini.FinancialAnalysisML.service.MetricasFinanceirasService;
+import com.github.gadini.FinancialAnalysisML.service.RedeMetricasService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -13,16 +13,16 @@ import java.time.LocalDate;
 
 @Slf4j
 @Component
-public class InsertMetricasFinanceirasTasklet implements Tasklet {
+public class InsertRedeMetricasTasklet implements Tasklet {
 
     @Autowired
-    private MetricasFinanceirasService metricasFinanceirasService;
+    private RedeMetricasService redeMetricasService;
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         LocalDate inicio =  LocalDate.now().minusMonths(1).withDayOfMonth(1);
         LocalDate fim = inicio.withDayOfMonth(inicio.lengthOfMonth());
-        metricasFinanceirasService.calcularMetricasFinanceiras(inicio, fim);
+        redeMetricasService.calcularGrafoRedeMetricas(inicio, fim);
         return RepeatStatus.FINISHED;
     }
 }
